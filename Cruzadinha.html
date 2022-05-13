@@ -15,6 +15,7 @@
         body {
             background-color: #D7E6EB;
             font-family: monospace;
+            zoom: 0.67;
         }
 
         header h1 {
@@ -60,7 +61,8 @@
         #div_game {
             background-color: #ffffff;
             margin: auto;
-
+            display: flex;
+            flex-direction: column;
             width: 800px;
             height: 800px;
         }
@@ -161,7 +163,6 @@
             <h1>Palavras-Cruzadas</h1><br>
             <div class="div_button">
                 <center>
-                    <button class="button" id="bt_start" onclick="start()">Começar o Jogo</button>
                     <button class="button" style="display: none" id="bt_destroyGame" onclick="destroyGrid()">Encerrar o Jogo</button>
                 </center>
             </div>
@@ -184,6 +185,9 @@
                         resposta<br><br>
                         Você terá 5 vidas. A cada erro cometido uma vida é perdida e caso você perca todas as vidas, o jogo se encerrará <br><br>
                     </p>
+
+                    <button class="button" id="bt_start" onclick="start()">Começar o Jogo</button>
+
                 </div>
                 <div id="div_vidas">Quantidade de vidas: <span id="span_vidas"></span></div>
                 <br>
