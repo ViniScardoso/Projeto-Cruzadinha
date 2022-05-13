@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Palavras-Cruzadas & Carlos Santana</title>
+    <title>Cruzadinha Vinícius Cardoso</title>
     <style>
         * {
             margin: 0;
@@ -14,8 +14,8 @@
 
         body {
             background-color: #D7E6EB;
-            font-family: monospace;
-            zoom: 0.67;
+            font-family: Arial, Helvetica, sans-serif;
+            zoom: 0.66;
         }
 
         header h1 {
@@ -64,13 +64,15 @@
             display: flex;
             flex-direction: column;
             width: 800px;
-            height: 800px;
+            height: 850px;
         }
 
         #div_questions {
             background-color: #85C1E9;
             width: 700px;
             margin: auto;
+            font-size: 20px;
+            padding: 10px;
         }
 
         .button {
@@ -84,8 +86,12 @@
         }
 
         #input_answer {
-            width: 100px;
+            width: 300px;
+            height: 30px;
+            border-radius: 20px;
             margin: auto;
+            padding-left:10px;
+
         }
 
         .deadCell {
@@ -122,10 +128,10 @@
 
         #div_verifiedAnswer {
             width: 500px;
-            height: 70px;
+            height: 50px;
             margin: auto;
             text-align: center;
-            font-size: 20px;
+            font-size: 15px;
             vertical-align: center;
             margin-bottom: 20px;
         }
@@ -145,7 +151,7 @@
 
         #div_vidas{
             display: none;
-            font-size: 20px;
+            font-size: 25px;
             margin-left: 27%;
             align-items: center;
         }
@@ -163,7 +169,7 @@
             <h1>Palavras-Cruzadas</h1><br>
             <div class="div_button">
                 <center>
-                    <button class="button" style="display: none" id="bt_destroyGame" onclick="destroyGrid()">Encerrar o Jogo</button>
+                    <button class="button" style="display: none" id="bt_destroyGame" onclick="giveUp()">Desistir</button>
                 </center>
             </div>
             <br>
@@ -186,16 +192,20 @@
                         Você terá 5 vidas. A cada erro cometido uma vida é perdida e caso você perca todas as vidas, o jogo se encerrará <br><br>
                     </p>
 
-                    <button class="button" id="bt_start" onclick="start()">Começar o Jogo</button>
-
                 </div>
+                <center>
+                    <button class="button" id="bt_start" onclick="start()">Começar o Jogo</button>
+                    <button class="button" style="display: none;" id="bt_tryAgain" onclick="tryAgain()">Tentar de novo</button>
+                    <button class="button" style="display: none;" id="bt_restart" onclick="tryAgain()">Recomeçar jogo</button>
+                </center>
+
                 <div id="div_vidas">Quantidade de vidas: <span id="span_vidas"></span></div>
                 <br>
                 <div id="div_canvasCruzada"></div>
                 <br>
                 <div style="display: none" id="div_questions">
                     <center>
-                        <span id="span_questionText">Vamos encontrar as esferas do dragao</span>
+                        <span id="span_questionText">Vamos encontrar as esferas do dragao</span><br>
                         <input type="text" id="input_answer" placeholder="Sua Reposta"><br>
                         <button id="button_verify" onclick="verify()" class="button">Verificar</button>
                     </center>
@@ -206,16 +216,16 @@
         </div>
         </div>
     </article><br><br>
-    <footer>
+    <!-- <footer>
         <div class="container"><br>
             <p>Developed by Carlos Santana <br>
                 RA: 01201095 <br>
                 1ADS-A
             </p>
         </div>
-    </footer>
+    </footer> -->
     <script>
-        var special_words = ['cpu', 'ula', 'registradores', 'ram', 'rom', 'eprom', 'flash', 'memória de massa', 'dma', 'cs', 'adress bus', 'data bus', 'i5', 'i7', 'dual core', 'quad core'];
+        var special_words = ['CPU', 'ULA', 'REGISTRADORES', 'RAM', 'ROM', 'EPROM', 'FLASH', 'MEMÓRIA DE MASSA', 'DMA', 'CS', 'ADRESS BUS', 'DATA BUS', 'I5', 'I7', 'DUAL CORE', 'QUAD CORE'];
 
         var questions_list = [
             'Qual é a sigla para Central Process Unit?',
@@ -475,12 +485,9 @@
 
         var cont_correctAnswer = 0;
         var cont_wrongAnswer = 0;
-
-        var vidas = 5;
         var coracoes = []
 
         function start() {
-            cont_correctAnswer = 0;
             bt_start.style.display = 'none';
             bt_destroyGame.style.display = 'block';
             div_questions.style.display = 'block';
@@ -495,13 +502,50 @@
         }
 
         function destroyGrid() {
-            bt_start.style.display = 'block';
+            bt_start.style.display = 'none';
             bt_destroyGame.style.display = 'none';
+            bt_restart.style.display = 'block';
             div_questions.style.display = 'none';
             div_vidas.style.display = 'none';
 
             document.querySelector('#div_canvasCruzada').innerHTML = '';
             pontuation();
+        }
+
+        function giveUp() {
+            bt_start.style.display = 'none';
+            bt_destroyGame.style.display = 'none';
+            div_questions.style.display = 'none';
+            div_vidas.style.display = 'none';
+            bt_tryAgain.style.display = 'block';
+
+            document.querySelector('#div_canvasCruzada').innerHTML = '';
+            giveUpText();
+        }
+
+        function tryAgain() {
+            bt_start.style.display = 'none';
+            bt_destroyGame.style.display = 'none';
+            div_questions.style.display = 'none';
+            div_vidas.style.display = 'none';
+            bt_tryAgain.style.display = 'block';
+
+            document.querySelector('#div_canvasCruzada').innerHTML = '';
+            giveUpText();
+
+            document.location.reload(true);
+        }
+
+        function gameOver() {
+            bt_start.style.display = 'none';
+            bt_destroyGame.style.display = 'none';
+            div_questions.style.display = 'none';
+            div_vidas.style.display = 'none';
+            bt_tryAgain.style.display = 'block';
+
+            document.querySelector('#div_canvasCruzada').innerHTML = '';
+            gameOverText();
+
         }
 
         function gameSequence() {
@@ -555,9 +599,8 @@
             else if (cont_correctAnswer == 16) {
                 word.word16.write();
 
-                setTimeout(function () {
-                    destroyGrid();
-                }, 3000);
+                destroyGrid();
+                
             }
 
 
@@ -568,6 +611,18 @@
             div_information.style.display = 'block';
 
             div_information.innerHTML = '<h1 style="text-align: center;">Parabéns!!</h1><br><br><p style="text-align: center;">Você finalizou o jogo</p><br><br>';
+        }
+
+        function giveUpText() {
+            div_information.style.display = 'block';
+
+            div_information.innerHTML = '<h1 style="text-align: center; color: red">DESISTENTE</h1><br><br><p style="text-align: center;">Infelizmente você resolveu desistir</p><br><br>';
+        }
+
+        function gameOverText() {
+            div_information.style.display = 'block';
+
+            div_information.innerHTML = '<h1 style="text-align: center; color: red">VOCÊ PERDEU</h1><br><br><p     style="text-align: center;">Infelizmente suas vidas acabaram</p><br><br>';
         }
 
         function renderGrid() {
@@ -619,31 +674,39 @@
             var answer = input_answer.value;
 
             if (answer != '') {
-                answer = answer.toLowerCase();
+                answer = answer.toUpperCase();
                 if (answer == special_words[cont_correctAnswer]) {
+                    div_verifiedAnswer.classList.remove('wrongAnswer')
                     div_verifiedAnswer.classList.add('correctAnswer');
                     div_verifiedAnswer.innerHTML = '<br>Resposta Correta!';
                     cont_correctAnswer++;
                 }
                 else {
+                    div_verifiedAnswer.classList.remove('correctAnswer');
                     div_verifiedAnswer.classList.add('wrongAnswer');
                     div_verifiedAnswer.innerHTML = '<br>Resposta Incorreta, tente novamente';
                     cont_wrongAnswer++;
 
-                    coracoes[cont_wrongAnswer - 1] = "";
-                    span_vidas.innerHTML = coracoes.join(" ");
+                    setTimeout(function () {
+                        coracoes[cont_wrongAnswer - 1] = "";
+                        span_vidas.innerHTML = coracoes.join(" ");
+                    }, 1600)
 
+                    
                     if (cont_wrongAnswer == 5) {
-                        destroyGrid();
+                        setTimeout( function(){
+                            gameOver();
+                        }, 1000)
+                       
                     }
                 }
-                setTimeout(function () {
-                    div_verifiedAnswer.style.display = 'block';
-                }, 500);
+             
+                div_verifiedAnswer.style.display = 'block';
+          
 
                 setTimeout(function () {
                     div_verifiedAnswer.style.display = 'none';
-                }, 3000);
+                }, 1500);
 
                 input_answer.value = '';
                 gameSequence();
