@@ -211,7 +211,7 @@
         </div>
     </footer>
     <script>
-        var special_words = ['CPU', 'ULA', 'Registradores', 'RAM', 'ROM', 'EPROM', 'FLASH', 'Memória de Massa', 'DMA', 'CS', 'Adress Bus', 'Data Bus', 'I5', 'I7', 'Dual Core', 'Quad Core'];
+        var special_words = ['cpu', 'ula', 'registradores', 'ram', 'rom', 'eprom', 'flash', 'memória de massa', 'dma', 'cs', 'adress bus', 'data bus', 'i5', 'i7', 'dual core', 'quad core'];
 
         var questions_list = [
             'Qual é a sigla para Central Process Unit?',
@@ -473,7 +473,7 @@
         var cont_wrongAnswer = 0;
 
         var vidas = 5;
-        var coracoes = ['<img src="heart.png"/>','<img src="heart.png"/>','<img src="heart.png"/>','<img src="heart.png"/>','<img src="heart.png"/>']
+        var coracoes = []
 
         function start() {
             cont_correctAnswer = 0;
@@ -483,7 +483,9 @@
             div_information.style.display = 'none';
             div_vidas.style.display = 'block'
             div_information.innerHTML = '';
+            coracoes = ['<img src="heart.png"/>','<img src="heart.png"/>','<img src="heart.png"/>','<img src="heart.png"/>','<img src="heart.png"/>']
             span_vidas.innerHTML = coracoes.join(" ");
+            cont_wrongAnswer = 0;
             renderGrid();
             gameSequence();
         }
@@ -613,7 +615,7 @@
             var answer = input_answer.value;
 
             if (answer != '') {
-                // answer = answer.toLowerCase();
+                answer = answer.toLowerCase();
                 if (answer == special_words[cont_correctAnswer]) {
                     div_verifiedAnswer.classList.add('correctAnswer');
                     div_verifiedAnswer.innerHTML = '<br>Resposta Correta!';
